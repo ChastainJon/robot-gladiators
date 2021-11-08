@@ -27,18 +27,4 @@ var fight = function(){
         window.alert(playerName + " still has " + playerHealth + " health left");
     }
 };
-if(playerHealth > 0 || enemyHealth > 0){
-    fight();
-}
-else{
-    if(enemyHealth <= 0 && playerHealth > 0){
-        window.alert(playerName + " has won the battle");
-    }
-    if(playerHealth <= 0 && enemyHealth > 0){
-        window.alert(enemyName + " has won the battle");
-    }
-    if(playerHealth <= 0 && enemyHealth <=0){
-        window.alert("Both robots have died, the battle is a draw");
-    }
-    
-}
+
