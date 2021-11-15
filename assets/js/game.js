@@ -16,35 +16,45 @@ var fightOrSkip = function(){
     return false;
 }
 var fight = function(enemy){
+    var isPlayerTurn = true;
+    if(Math.random() > 0.5){
+        isPlayerTurn = false;
+    }
     while(playerInfo.health > 0 && enemy.health > 0){
-        if(fightOrSkip()){
-            break;
-        }
-        //remove enemy.health
-        var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
-        enemy.health = Math.max(0, enemy.health - damage);
-        console.log(playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining.");
-        //check enemy health
-        if (enemy.health <= 0){
-            window.alert(enemy.name + " has died!");
-            playerInfo.money = playerInfo.money + 20;
-            break;
-        }
-        else{
-            window.alert(enemy.name + " still has " + enemy.health + " health left");
-        }
-        //remove playerInfo.health
-        var damage = randomNumber(enemy.attack - 3, enemy.attack);
-        playerInfo.health = Math.max(0, playerInfo.health - damage);
-        console.log(enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining.");
-        //check playerInfo.health
-        if(playerInfo.health <= 0){
-            window.alert(playerInfo.name + " has died!");
-            break;
+        if(isPlayerTurn){
+            if(fightOrSkip()){
+                break;
+            }
+            //remove enemy.health
+            var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+            enemy.health = Math.max(0, enemy.health - damage);
+            console.log(playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining.");
+            //check enemy health
+            if (enemy.health <= 0){
+                window.alert(enemy.name + " has died!");
+                playerInfo.money = playerInfo.money + 20;
+                break;
+            }
+            else{
+                window.alert(enemy.name + " still has " + enemy.health + " health left");
+            }
         }
         else{
-            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left");
+            //remove playerInfo.health
+            var damage = randomNumber(enemy.attack - 3, enemy.attack);
+            playerInfo.health = Math.max(0, playerInfo.health - damage);
+            console.log(enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining.");
+            //check playerInfo.health
+            if(playerInfo.health <= 0){
+                window.alert(playerInfo.name + " has died!");
+                break;
+            }
+            else{
+                window.alert(playerInfo.name + " still has " + playerInfo.health + " health left");
+            }
         }
+        //switch turn order for next round
+        isPlayerTurn = !isPlayerTurn;
     }
 };
 //Start Game Function
@@ -94,7 +104,7 @@ var endGame = function() {
 //Shop function
 var shop = function(){
     console.log("Entered the shop");
-    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE.");
+    var shopOptionPrompt = window.prompt("You have " + playerInfo.money + " dollars. Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE.");
     //store options
     shopOptionPrompt = parseInt(shopOptionPrompt);
     switch(shopOptionPrompt){
@@ -142,10 +152,10 @@ var playerInfo ={
         if(this.money >= 7){
             window.alert("Refilling player's health by 20 for 7 dollars");
             this.health += 20;
-            this.money +- 7;
+            this.money -= 7;
         }
         else{
-            window.alert("You do not have enough money4");
+            window.alert("You do not have enough money! You only have " + this.money + " dollars");
         }
     },
     upgradeAttack: function(){
@@ -155,7 +165,7 @@ var playerInfo ={
             this.money -= 7;
         }
         else{
-            window.alert("You do not have enough money4");
+            window.alert("You do not have enough money! You only have " + this.money + " dollars");
         }
     }
 
